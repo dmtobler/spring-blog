@@ -1,0 +1,23 @@
+* {
+    text-align: center;
+}
+
+nav {
+    margin-bottom: 2em;
+}
+
+#omg-text {
+    margin-bottom: 1em;
+}
+
+#dice-buttons {
+    margin-bottom: 2em;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#loser {
+    font-size: 10em;
+}

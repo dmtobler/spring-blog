@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Roll the die!</title>
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="partials/partials :: head"></head>
+
 <body>
+
+<nav th:replace="partials/partials :: navbar"></nav>
+
+<h1 id="omg-text">Please select a number:</h1>
+
+<div class="btn-group" role="group" id="dice-buttons">
+    <div th:each="i: ${#numbers.sequence(1, 6)}">
+        <a th:href="@{/roll-dice/{i}(i=${i})}"><button th:text="${i}" type="button" class="btn btn-secondary"></button></a>
+    </div>
+</div>
+
+<div th:if="${num != null}">
+
+    <div class="alert alert-success" th:if="${correctGuess}">
+        <h3 th:text="${num}"></h3>
+        <h3 th:text="${randomNum}"></h3>
+        <h1>Congrats! You win!</h1>
+    </div>
+
+    <div class="alert alert-danger" th:if="!${correctGuess}">
+        <h3 th:text="${num}"></h3>
+        <h3 th:text="${randomNum}"></h3>
+        <h1 id="loser">L O S E R!</h1>
+        <h1>Please roll again.</h1>
+    </div>
+
+</div>
 
 </body>
 </html>
