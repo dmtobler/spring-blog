@@ -4,8 +4,10 @@
 <body>
 <nav th:replace="partials/partials :: navbar"></nav>
 
-<div class="post-div" th:each="post : ${posts}">
-    <h2 th:text="${post.title}" />
+<h1 class="mb-4">Viewing all posts</h1>
+
+<div class="post-div mb-3" th:each="post : ${posts}">
+    <a th:href="@{|/posts/${post.getId()}|}"><h2 th:text="${post.title}" /></a>
     <p th:text="${post.body}" />
 </div>
 

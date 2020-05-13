@@ -1,11 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head th:replace="partials/partials :: head"></head>
 <body>
 <nav th:replace="partials/partials :: navbar"></nav>
 
-<h2 th:text="${post.getTitle()}" />
-<p th:text="${post.getBody()}" />
+<h2 th:text="${post.title}"></h2>
+<p th:text="${post.body}"></p>
+
+<form method="POST" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
+    <button class="btn btn-outline-primary">Edit</button>
+</form>
+
+<form method="POST" th:action="@{'/posts/' + ${post.getId()} + '/delete'}">
+    <button class="btn btn-outline-primary">Delete</button>
+</form>
 
 <standard_scripts th:replace="partials/partials :: footer"></standard_scripts>
 </body>
