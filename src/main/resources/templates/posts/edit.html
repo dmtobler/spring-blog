@@ -1,10 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head th:replace="partials/partials :: head"></head>
 <body>
+<nav th:replace="partials/partials :: navbar"></nav>
 
+<form class="w-75 mx-auto" method="POST" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
+    <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-11">
+            <h2>Edit Post</h2>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="title" class="col-sm-1 col-form-label text-right font-weight-bold">Title</label>
+        <div class="col-sm-11">
+            <input type="text" class="form-control text-left" id="title" name="title" th:value="${post.title}"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="body" class="col-sm-1 col-form-label text-right font-weight-bold">Body</label>
+        <div class="col-sm-11">
+            <textarea class="form-control text-left" id="body" name="body" rows="10" th:text="${post.body}"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-11">
+            <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </div>
+    </div>
+</form>
+
+<standard_scripts th:replace="partials/partials :: footer"></standard_scripts>
 </body>
 </html>

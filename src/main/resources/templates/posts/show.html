@@ -7,7 +7,7 @@
 <h2 th:text="${post.title}"></h2>
 <p th:text="${post.body}"></p>
 
-<form method="POST" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
+<form method="GET" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
     <button class="btn btn-outline-primary">Edit</button>
 </form>
 
