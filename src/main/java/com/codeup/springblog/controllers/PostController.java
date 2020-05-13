@@ -90,7 +90,7 @@ public class PostController {
         postDao.save(post);
         model.addAttribute("post", post);
 
-        return "redirect:/posts/index";
+        return "redirect:/posts";
     }
 
 
