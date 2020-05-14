@@ -15,16 +15,20 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String body;
+
+    @ManyToOne
+    @JoinColumn (name="user_id")
+    private User user;
 
     // Empty constructor to allocate memory
     public Post() {}
 
-    // Constructor with title and body
+    // Constructor with title, body
     public Post(String title, String body) {
         this.title = title;
         this.body = body;
@@ -60,5 +64,13 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
