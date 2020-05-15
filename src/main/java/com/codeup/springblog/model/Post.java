@@ -6,6 +6,9 @@ import org.hibernate.annotations.CollectionId;
 import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import javax.websocket.OnMessage;
 
 @Entity
 @Table(name="posts")
@@ -16,9 +19,12 @@ public class Post {
     private long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Post must have a title.")
+    @Size(min = 3, message = "A title must be at least 3 characters.")
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
+    @NotBlank(message = "Posts must have a body.")
     private String body;
 
     @ManyToOne

@@ -6,8 +6,10 @@ import com.codeup.springblog.repositories.PostRepository;
 import com.codeup.springblog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,7 +96,17 @@ public class PostController {
 //    Create a new post
 
     @PostMapping(path = "/posts/create")
-    public String createPost(@ModelAttribute Post post) {
+    public String createPost(
+        @ModelAttribute
+        @Valid Post post,
+        Errors validation,
+        Model model) {
+            if (validation.hasErrors()) {
+                model.addAttribute("errors", validation);
+                model.addAttribute("post", post);
+                return "posts/create";
+            }
+
         User user = userDao.getOne(1L);
         post.setUser(user);
         postDao.save(post);

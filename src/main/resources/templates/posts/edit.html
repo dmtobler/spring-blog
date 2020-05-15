@@ -2,9 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head th:replace="partials/partials :: head"></head>
 <body>
+<header th:replace="partials/partials :: header"></header>
 <nav th:replace="partials/partials :: navbar"></nav>
 
-<form class="w-75 mx-auto" method="POST" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
+<form class="w-75 mx-auto" th:method="POST" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
     <div class="form-group row">
         <div class="col-sm-1"></div>
         <div class="col-sm-11">

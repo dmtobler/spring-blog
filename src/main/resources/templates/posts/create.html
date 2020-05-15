@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head th:replace="partials/partials :: head"></head>
 <body>
+<header th:replace="partials/partials :: header"></header>
 <nav th:replace="partials/partials :: navbar"></nav>
 
 <form class="w-75 mx-auto" th:method="POST" th:action="@{/posts/create}" th:object="${post}">
@@ -11,6 +12,9 @@
             <h2>Create Post</h2>
         </div>
     </div>
+
+    <p class="alert alert-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+    <p class="alert alert-danger" th:if="${#fields.hasErrors('body')}" th:errors="*{body}"></p>
 
     <div class="form-group row">
         <label for="title" class="col-sm-1 col-form-label text-right font-weight-bold">Title</label>
