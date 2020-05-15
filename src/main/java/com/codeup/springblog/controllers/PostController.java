@@ -83,7 +83,8 @@ public class PostController {
 //    View the form for creating a post
 
     @GetMapping(path = "/posts/create")
-    public String viewCreatePostForm() {
+    public String viewCreatePostForm(Model model) {
+        model.addAttribute("post", new Post());
         return "/posts/create";
     }
 
@@ -93,12 +94,10 @@ public class PostController {
 //    Create a new post
 
     @PostMapping(path = "/posts/create")
-    public String createPost(@RequestParam(name = "title") String title, @RequestParam(name = "body") String body, Model model) {
+    public String createPost(@ModelAttribute Post post) {
         User user = userDao.getOne(1L);
-        Post post = new Post(title, body);
         post.setUser(user);
         postDao.save(post);
-        model.addAttribute("post", post);
 
         return "redirect:/posts";
     }
