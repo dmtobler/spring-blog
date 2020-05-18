@@ -37,3 +37,9 @@ nav {
     margin-bottom: 0;
     padding: 2em;
 }
+
+.link-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
