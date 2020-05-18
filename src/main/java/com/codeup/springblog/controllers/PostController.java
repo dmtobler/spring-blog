@@ -10,13 +10,14 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class PostController {
 
-// Dependency injection
+    //******************************
+    //**** DEPENDENCY INJECTION ****
+    //******************************
+
     // For PostRepo
     private final PostRepository postDao;
 
@@ -29,96 +30,77 @@ public class PostController {
     }
 
 
-
-    //    Posts index page
+    //******************************
+    //******* POST INDEX PAGE ******
+    //******************************
 
     @GetMapping("/posts")
     public String returnAllPosts(Model model) {
 
-        // WITH JPA:
-        model.addAttribute("posts", postDao.findAll()); // Get all the posts with the built in JPA functionality!
-
-
-//        // BEFORE JPA (hardcoded):
-//        // Create an ArrayList to store all the posts
-//        List<Post> postList = new ArrayList<>();
-//
-//        // Add two new posts to the list
-//        postList.add(new Post("Post 1", "Post 1 body"));
-//        postList.add(new Post("Post 2", "Post 2 body"));
-//
-//        // Add the ArrayList to the model as an attribute ("posts" is the name that is referenced in the view)
-//        model.addAttribute("posts", postList);
-
+        // Get all the posts with the built in JPA functionality!
+        model.addAttribute("posts", postDao.findAll());
 
         // Return the view
         return "/posts/index";
     }
 
 
-
-
-//    View an individual post
+    //******************************
+    //*** IND. POST PAGE (BY ID) ***
+    //******************************
 
     @GetMapping(path = "/posts/{id}")
     // Pass id, title, and body variables to the controller
     public String returnPostById(@PathVariable long id, Model model) {
 
-        // With JPA:
+        // Get post by ID
         model.addAttribute("post", postDao.getPostById(id));
-
-
-        // Before JPA:
-//        // Create a dummy post
-//        Post dummyData = new Post(id, "Dummy Post", "lorem ipsum dolor");
-//
-//        // Add attribute to the model
-//        model.addAttribute("post", dummyData);
 
         // Return the view
         return "/posts/show";
     }
 
 
+    //******************************
+    //******** CREATE POST *********
+    //******************************
 
-
-//    View the form for creating a post
-
+    // View the form to create a post
     @GetMapping(path = "/posts/create")
     public String viewCreatePostForm(Model model) {
         model.addAttribute("post", new Post());
         return "/posts/create";
     }
 
-
-
-
-//    Create a new post
-
+    // Create the post
     @PostMapping(path = "/posts/create")
     public String createPost(
         @ModelAttribute
         @Valid Post post,
         Errors validation,
         Model model) {
+            // Check if errors present given title and body requirements defined in Post.java
             if (validation.hasErrors()) {
                 model.addAttribute("errors", validation);
                 model.addAttribute("post", post);
+
+                // If errors present, reload the page with the errors listed as alerts above the form.
                 return "posts/create";
             }
 
+        // If no errors, assign the user to the post and redirect to the index page (/posts)
         User user = userDao.getOne(1L);
         post.setUser(user);
         postDao.save(post);
-
         return "redirect:/posts";
     }
 
 
+    //******************************
+    //********* EDIT POST **********
+    //******************************
 
-
-//    Edit a post
-
+    // View the post info to be edited
     @GetMapping("/posts/{id}/edit")
     public String postEditForm(@PathVariable long id, Model model) {
         Post post = postDao.getPostById(id);
@@ -126,6 +108,7 @@ public class PostController {
         return "/posts/edit";
     }
 
+    // Submit the edited post information and update the DB
     @PostMapping("/posts/{id}/edit")
     public String postEdit(@PathVariable long id, @RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
 
@@ -138,13 +121,16 @@ public class PostController {
         return "redirect:/posts";
     }
 
-
-//    Delete a post
+    //******************************
+    //******** DELETE POST *********
+    //******************************
 
     @PostMapping("/posts/{id}/delete")
     public String postDelete(@PathVariable long id) {
+        // Grab the post by the ID
         postDao.deleteById(id);
 
+        // Redirect to post index
         return "redirect:/posts";
     }
 }
