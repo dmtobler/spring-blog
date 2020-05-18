@@ -4,6 +4,7 @@ import com.codeup.springblog.model.Post;
 import com.codeup.springblog.model.User;
 import com.codeup.springblog.repositories.PostRepository;
 import com.codeup.springblog.repositories.UserRepository;
+import com.codeup.springblog.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -24,9 +25,13 @@ public class PostController {
     // For UserRepo
     private final UserRepository userDao;
 
-    public PostController(PostRepository postDao, UserRepository userDao) {
+    // For emailService
+    private final EmailService emailService;
+
+    public PostController(PostRepository postDao, UserRepository userDao, EmailService emailservice) {
         this.postDao = postDao;
         this.userDao = userDao;
+        this.emailService = emailservice;
     }
 
 
@@ -88,9 +93,16 @@ public class PostController {
                 return "posts/create";
             }
 
-        // If no errors, assign the user to the post and redirect to the index page (/posts)
+        // If no errors, assign the user to the post...
         User user = userDao.getOne(1L);
         post.setUser(user);
+
+        // Send an email confirmation using the emailService...
+        String emailSubject = "New Post Created";
+        String emailBody = "Successfully posted new blog post titled \"" + post.getTitle() + "\"!";
+        emailService.prepareAndSend(post, emailSubject, emailBody);
+
+        // Save the post and redirect to posts index
         postDao.save(post);
         return "redirect:/posts";
     }
