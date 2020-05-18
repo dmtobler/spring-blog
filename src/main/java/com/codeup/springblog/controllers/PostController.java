@@ -103,8 +103,7 @@ public class PostController {
     // View the post info to be edited
     @GetMapping("/posts/{id}/edit")
     public String postEditForm(@PathVariable long id, Model model) {
-        Post post = postDao.getPostById(id);
-        model.addAttribute("post", post);
+        model.addAttribute("post", postDao.getOne(id));
         return "/posts/edit";
     }
 
@@ -112,12 +111,19 @@ public class PostController {
     @PostMapping("/posts/{id}/edit")
     public String postEdit(@PathVariable long id, @RequestParam(name = "title") String title, @RequestParam(name = "body") String body) {
 
+        // Get the post from DB
         Post post = postDao.getPostById(id);
+
+        // Set the title to the value in the title field
         post.setTitle(title);
+
+        // Set the body to the value in the body field
         post.setBody(body);
 
+        // Update the post in the DB
         postDao.save(post);
 
+        // Redirect to the posts index
         return "redirect:/posts";
     }
 
