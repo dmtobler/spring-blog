@@ -43,3 +43,19 @@ nav {
     border: none;
     cursor: pointer;
 }
+
+.nav-right-link {
+    padding: .5rem;
+}
+
+.nav-right-link > a:hover {
+    color: #343a40;
+    text-decoration: none;
+}
+
+#logout-btn {
+    border: none;
+    background: none;
+    font: inherit;
+    outline: inherit;
+}

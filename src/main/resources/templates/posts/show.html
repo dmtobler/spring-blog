@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="">
 <head th:replace="partials/partials :: head"></head>
 <body>
 <header th:replace="partials/partials :: header"></header>
@@ -10,13 +10,16 @@
 
 <p>Posted by: <span th:text="${post.getUser().getEmail()}"></span>
 
-<form method="GET" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
-    <button class="btn btn-outline-primary">Edit</button>
-</form>
 
-<form method="POST" th:action="@{'/posts/' + ${post.getId()} + '/delete'}">
-    <button class="btn btn-outline-primary">Delete</button>
-</form>
+<div sec:authorize="isAuthenticated()" style="display: flex" class="ml-auto mr-auto w-100">
+    <form method="GET" th:action="@{'/posts/' + ${post.getId()} + '/edit'}">
+        <button class="btn btn-outline-primary">Edit</button>
+    </form>
+
+    <form method="POST" th:action="@{'/posts/' + ${post.getId()} + '/delete'}">
+        <button class="btn btn-danger">Delete</button>
+    </form>
+</div>
 
 <standard_scripts th:replace="partials/partials :: footer"></standard_scripts>
 </body>

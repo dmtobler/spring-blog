@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HomeController {
 
     @GetMapping("/")
-    @ResponseBody
     public String index() {
-        return "This is the landing page!";
+        return "redirect:/posts";
     }
 
     @GetMapping("/home")
     public String welcome() {
-        return "home";
+        return "redirect:/posts";
     }
 }
