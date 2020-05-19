@@ -63,7 +63,7 @@ public class PostsIntegrationTests {
             testUser = userDao.save(newUser);
         }
 
-        // Throws a Post request to /login and expect a redirection to the posts index page after being logged in
+        // Throws a Post request to /login and expect a redirection to the Posts index page after being logged in
         httpSession = this.mvc.perform(post("/login").with(csrf())
                 .param("username", "testUser")
                 .param("password", "pass"))
@@ -100,7 +100,7 @@ public class PostsIntegrationTests {
     // Test the Create functionality
 
     @Test
-    public void testCreateAd() throws Exception {
+    public void testCreatePost() throws Exception {
         // Makes a Post request to /ads/create and expect a redirection to the Ad
         this.mvc.perform(
                 post("/posts/create").with(csrf())
@@ -115,7 +115,7 @@ public class PostsIntegrationTests {
     // Test the Read functionality
 
     @Test
-    public void testShowAd() throws Exception {
+    public void testShowPost() throws Exception {
 
         Post existingPost = postsDao.findAll().get(0);
 
@@ -127,7 +127,7 @@ public class PostsIntegrationTests {
     }
 
     @Test
-    public void testAdsIndex() throws Exception {
+    public void testPostsIndex() throws Exception {
         Post existingPost = postsDao.findAll().get(0);
 
         // Makes a Get request to /posts and verifies that we get some of the static text of the posts/index.html template and at least the title from the first Post is present in the template.
@@ -140,9 +140,30 @@ public class PostsIntegrationTests {
     }
 
 
-    // Test the Update functionality
+    // Test the Update (edit) functionality
 
+    @Test
+    public void testEditPost() throws Exception {
+        // Gets the first Post for tests purposes
+        Post existingPost = postsDao.findAll().get(0);
+
+        // Makes a Post request to /posts/{id}/edit and expect a redirection to the Post show page
+        this.mvc.perform(
+                post("/posts/" + existingPost.getId() + "/edit").with(csrf())
+                        .session((MockHttpSession) httpSession)
+                        .param("title", "edited title")
+                        .param("body", "edited body"))
+                .andExpect(status().is3xxRedirection());
+
+        // Makes a GET request to /posts/{id} and expect a redirection to the Post show page
+        this.mvc.perform(get("/posts/" + existingPost.getId()))
+                .andExpect(status().isOk())
+                // Test the dynamic content of the page
+                .andExpect(content().string(containsString("edited title")))
+                .andExpect(content().string(containsString("edited body")));
+    }
 
 
     // Test the Delete functionality
+
 }
