@@ -114,7 +114,35 @@ public class PostsIntegrationTests {
 
     // Test the Read functionality
 
+    @Test
+    public void testShowAd() throws Exception {
+
+        Post existingPost = postsDao.findAll().get(0);
+
+        // Makes a Get request to /posts/{id} and expect a redirection to the Post show page
+        this.mvc.perform(get("/posts/" + existingPost.getId()))
+                .andExpect(status().isOk())
+                // Test the dynamic content of the page
+                .andExpect(content().string(containsString(existingPost.getBody())));
+    }
+
+    @Test
+    public void testAdsIndex() throws Exception {
+        Post existingPost = postsDao.findAll().get(0);
+
+        // Makes a Get request to /posts and verifies that we get some of the static text of the posts/index.html template and at least the title from the first Post is present in the template.
+        this.mvc.perform(get("/posts"))
+                .andExpect(status().isOk())
+                // Test the static content of the page
+                .andExpect(content().string(containsString("Latest posts")))
+                // Test the dynamic content of the page
+                .andExpect(content().string(containsString(existingPost.getTitle())));
+    }
+
+
     // Test the Update functionality
+
+
 
     // Test the Delete functionality
 }
