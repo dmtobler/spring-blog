@@ -134,7 +134,7 @@ public class PostsIntegrationTests {
         this.mvc.perform(get("/posts"))
                 .andExpect(status().isOk())
                 // Test the static content of the page
-                .andExpect(content().string(containsString("Latest posts")))
+                .andExpect(content().string(containsString("Viewing all posts")))
                 // Test the dynamic content of the page
                 .andExpect(content().string(containsString(existingPost.getTitle())));
     }
