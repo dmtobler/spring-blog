@@ -47,7 +47,7 @@ public class PostController {
         model.addAttribute("posts", postDao.findAll());
 
         // Return the view
-        return "/posts/index";
+        return "posts/index";
     }
 
 
@@ -63,7 +63,7 @@ public class PostController {
         model.addAttribute("post", postDao.getPostById(id));
 
         // Return the view
-        return "/posts/show";
+        return "posts/show";
     }
 
 
@@ -75,7 +75,7 @@ public class PostController {
     @GetMapping(path = "/posts/create")
     public String viewCreatePostForm(Model model) {
         model.addAttribute("post", new Post());
-        return "/posts/create";
+        return "posts/create";
     }
 
     // Create the post
@@ -117,7 +117,7 @@ public class PostController {
     @GetMapping("/posts/{id}/edit")
     public String postEditForm(@PathVariable long id, Model model) {
         model.addAttribute("post", postDao.getOne(id));
-        return "/posts/edit";
+        return "posts/edit";
     }
 
     // Submit the edited post information and update the DB
