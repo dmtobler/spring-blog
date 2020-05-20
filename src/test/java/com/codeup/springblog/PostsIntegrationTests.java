@@ -101,7 +101,7 @@ public class PostsIntegrationTests {
 
     @Test
     public void testCreatePost() throws Exception {
-        // Makes a Post request to /ads/create and expect a redirection to the Ad
+        // Makes a Post request to /posts/create and expect a redirection to the Post
         this.mvc.perform(
                 post("/posts/create").with(csrf())
                         .session((MockHttpSession) httpSession)
